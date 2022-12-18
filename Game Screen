@@ -1,0 +1,158 @@
+var level1Button = new Button ({
+    x: 100,
+    y: 70,
+    width: 200,
+    height: 50,
+    label: "              Easy",
+    color: color(0, 255, 0),
+    onClick: function(){
+      currentScene = 3;
+    }
+});
+
+var level2Button = new Button ({
+    x: 100,
+    y: 170,
+    width: 200,
+    height: 50,
+    label: "            Medium",
+    color: color(255, 255, 0),
+    onClick: function(){
+      currentScene = 4;
+    }
+});
+
+var level3Button = new Button ({
+    x: 100,
+    y: 270,
+    width: 200,
+    height: 50,
+    label: "              Hard",
+    color: color(255, 0, 0),
+    onClick: function(){
+      currentScene = 5;
+    }
+});
+
+var levelsPage = function(){
+    background(80, 170, 220);
+    level1Button.draw();
+    level2Button.draw();
+    level3Button.draw();
+};
+
+var xTile = [];
+var yTile = [];
+var colorTile = [];
+var lose = [];
+var score = 0;
+var tiles = 1000;
+
+for(var i=0; i<tiles; i++){ //makes the x, y, color for each tile
+    yTile.push(i*-120);
+    var xRandom = round(random(0.5,5.4));
+    if (xRandom === 1) {xTile.push(35);}
+    if (xRandom === 2) {xTile.push(105);}
+    if (xRandom === 3) {xTile.push(175);}
+    if (xRandom === 4) {xTile.push(245);}
+    if (xRandom === 5) {xTile.push(315);}
+    colorTile.push(color(255,255,255));
+    lose.push(false);
+}
+
+var level1 = function(){ //easy level
+    background(0, 255, 255);
+    fill(0, 0, 0);
+    text("Score: " + score, 10,20);
+    
+    for(var i=0; i<tiles; i++){ //makes the tiles
+        fill(colorTile[i]);
+        rect(xTile[i], yTile[i], 50, 100);
+        yTile[i] += 2;
+        if(yTile[i]>400&&lose[i] === false){ //losing screen if a tile was not clicked
+            background(255, 0, 0);
+            textSize(75);
+            text("Game Over",5,100);
+            text("Score: " + score,40,200);
+            for(var i=0; i<tiles; i++){
+                xTile[i] = 500;
+            }
+        }
+    }
+};
+
+var level2 = function(){ //medium level
+    background(0, 255, 255);
+    fill(0, 0, 0);
+    text("Score: " + score, 10,20);
+    
+    for(var i=0; i<tiles; i++){ //makes the tiles
+        fill(colorTile[i]);
+        rect(xTile[i], yTile[i], 50, 100);
+        yTile[i] += 3;
+        if(yTile[i]>400&&lose[i] === false){ //losing screen if a tile was not clicked
+            background(255, 0, 0);
+            textSize(75);
+            text("Game Over",5,100);
+            text("Score: " + score,40,200);
+            for(var i=0; i<tiles; i++){
+                xTile[i] = 500;
+            }
+        }
+    }
+};
+
+var level3 = function(){ //hard level
+    background(0, 255, 255);
+    fill(0, 0, 0);
+    text("Score: " + score, 10,20);
+    
+    for(var i=0; i<tiles; i++){ //makes the tiles
+        fill(colorTile[i]);
+        rect(xTile[i], yTile[i], 50, 100);
+        yTile[i] += 4;
+        if(yTile[i]>400&&lose[i] === false){ //losing screen if a tile was not clicked
+            background(255, 0, 0);
+            textSize(75);
+            text("Game Over",5,100);
+            text("Score: " + score,40,200);
+            for(var i=0; i<tiles; i++){
+                xTile[i] = 500;
+            }
+        }
+    }
+};
+
+mouseClicked = function(){
+    if(currentScene === 0){
+        startButton.handleMouseClick();
+        instructionsButton.handleMouseClick();
+    }
+    if (currentScene === 1){
+        startButton2.handleMouseClick();
+    }
+    if (currentScene===2) {
+        level1Button.handleMouseClick();
+        level2Button.handleMouseClick();
+        level3Button.handleMouseClick();
+    }
+    if(currentScene === 3 || 4 || 5){
+        for(var i=0; i<tiles; i++){
+            if(mouseX>xTile[i]&&mouseX<xTile[i]+50&&mouseY>yTile[i]&&mouseY<yTile[i]+100){
+                playSound(getSound("rpg/metal-chime"));
+                colorTile[i] = color(0,0,0);
+                lose[i] = true;
+                score++;
+            }
+        }
+    }
+};    
+
+draw = function(){
+    if (currentScene===0) {splash();}
+    if (currentScene===1) {instructionsPage();}
+    if (currentScene===2) {levelsPage();}
+    if (currentScene===3) {level1();}
+    if (currentScene===4) {level2();}
+    if (currentScene===5) {level3();}
+};
