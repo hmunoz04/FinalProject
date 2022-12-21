@@ -1,0 +1,21 @@
+var instructionsPage = function (){
+    background(120, 97, 74);
+    
+    //title
+    fill(255, 255, 255);
+    textSize(65);
+    text("Instructions",24,13);
+    
+    //text on how to play
+    fill(255, 209, 209);
+    textSize(23);
+    text("In this game, there will be piano tiles falling down from the top of the screen. The objective is to click the tile when it appears on screen as fast as possible. ",41,100,311,340);
+    
+    //button
+    rect(0,330,399,69);
+    startButton2.draw();
+    
+    //bitmojis
+    drawBitmojiHerik( 61,363,96);
+    drawBitmojiMithilesh(153,182,48);
+};
